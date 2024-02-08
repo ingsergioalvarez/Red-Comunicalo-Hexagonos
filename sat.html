@@ -8,10 +8,15 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.6/turf.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div id="map" style="height: 97vh;"></div> <!-- Añade un contenedor para el mapa -->
+    <div id="map"></div>
+    <div class="search-container">
+        <input type="text" id="addressInput" placeholder="Escribe una dirección...">
+        <button onclick="buscarDireccion()">Buscar</button>
+    </div>
     <script>
         var map = L.map('map').setView([23.6345, -102.5528], 5); // Crear un objeto de mapa y establecer la vista
         L.tileLayer('https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -177,5 +182,33 @@
                 return { color: 'rgba(253, 253, 253, .5)',  weight: 0.6, fillColor: '#04cbfd', fillOpacity: 0.3 }; // Estilo de los hexágonos
             }
         }).addTo(map);
+        function buscarDireccion() {
+            var direccion = document.getElementById('addressInput').value;
+            if (direccion.trim() === '') {
+                alert('Por favor, ingresa una dirección');
+                return;
+            }
+
+            // Realizar solicitud de geocodificación a Nominatim
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(direccion)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        var resultado = data[0];
+                        var latitud = parseFloat(resultado.lat);
+                        var longitud = parseFloat(resultado.lon);
+                        map.setView([latitud, longitud], 13);
+                        L.marker([latitud, longitud]).addTo(map)
+                            .bindPopup(resultado.display_name)
+                            .openPopup();
+                    } else {
+                        alert('No se encontraron resultados para la dirección ingresada');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al buscar la dirección:', error);
+                    alert('Ocurrió un error al buscar la dirección');
+                });
+        }
     </script>
 </body>

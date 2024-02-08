@@ -301,6 +301,8 @@ main {
 
 }
 
+
+
 p img {
 
     width: 25px;
@@ -326,40 +328,7 @@ p img {
 
 
 
-.boton-buscar {
-    text-align: center;
-    width: 95%;
 
-    padding: 0 2.5% 10px 2.25%;
-
-
-
-}
-
-#search-btn {
-
-    clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
-    display: block;
-    width: 20%;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    background: rgb(0, 49, 131);
-    color: aliceblue;
-    text-decoration: none;
-    text-align: center;
-    transition: background 1s, font-size 1s, width 1s;
-    font-weight: bold;
-
-}
-
-#search-btn:hover {
-    background: rgb(0, 92, 252);
-    font-size: 20px;
-    width: 25%;
-
-
-}
 
 .footer {
 
@@ -605,8 +574,9 @@ p img {
 .search-container {
     position: absolute;
     bottom: 10px;
-    left: 30px;
-    background-color: rgba(255, 255, 255, 0.8);
+    left: 20px;
+    width: 600px;
+    background-color: rgba(190, 188, 188, 0.8);
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -620,4 +590,7 @@ p img {
     border: none;
     border-radius: 5px;
     font-size: 14px;
+}
+.search-container input{
+    width: 500px;
 }

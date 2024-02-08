@@ -13,7 +13,8 @@ function cargarMapa(mapaId, src, textoOverlay, sublistId) {
 
     var overlayInstrucciones = document.querySelector('.overlayInstrucciones');
     overlayInstrucciones.style.display = 'none';
-    
+    var overlaydispoinibilidad = document.querySelector('.overlay-tipos-red');
+    overlaydispoinibilidad.style.display = 'block';
 }
 
 function mostrarMapa(mapaId, textoOverlay, sublistId) {

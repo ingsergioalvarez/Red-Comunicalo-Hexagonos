@@ -17,6 +17,17 @@ function cargarMapa(mapaId, src, textoOverlay, sublistId) {
     overlaydispoinibilidad.style.display = 'block';
     var notas = document.querySelector('.notas')
     notas.style.display = 'block';
+
+    // Verificar qué opción se ha seleccionado
+    if (mapaId === 'LTE' || mapaId === 'mapa5g' || mapaId === 'mapa3g' || mapaId === 'mapa4g') {
+        // Cambiar la imagen del estado de cobertura a verde si se selecciona LTE
+        document.getElementById('estadoCobertura').src = 'imagenes/HEXAGONO VERDE.png';
+    } else {
+        // Usar la imagen predeterminada si no se selecciona LTE
+        document.getElementById('estadoCobertura').src = 'imagenes/HEXAGONO AZUL.png';
+    }
+    var overlaydispoinibilidad = document.querySelector('.overlay-tipos-red');
+
 }
 
 function mostrarMapa(mapaId, textoOverlay, sublistId) {
@@ -42,7 +53,7 @@ function toggleSublist(sublistId) {
     var sublist = document.getElementById(sublistId);
     sublist.style.display = sublist.style.display === 'none' ? 'block' : 'none';
 
-    
+
 
     var allSublists = document.querySelectorAll('.sub-menu');
     allSublists.forEach(function (otherSublist) {
@@ -93,7 +104,7 @@ function toggleContenidoMenu() {
 }
 
 // Agrega un evento de cambio de tamaño de ventana para ajustar el comportamiento
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function () {
     var anchoVentana = window.innerWidth;
 
     // Verifica si la pantalla es menor a 760px usando la media query
@@ -105,10 +116,10 @@ window.addEventListener('resize', function() {
 });
 
 
-  /*mapaheptagonos*/
+/*mapaheptagonos*/
 // Inicializar el mapa
 var map = L.map('map').setView([20, -100], 5); // Coordenadas y nivel de zoom
-    
+
 // Agregar una capa base de OpenStreetMap
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -119,10 +130,10 @@ function buscarDireccion() {
 
     // Realizar una solicitud al servicio de geocodificación de Nominatim a través del proxy
     fetch(proxyUrl + 'https://nominatim.openstreetmap.org/search?format=json&q=' + direccion)
-        .then(function(response) {
+        .then(function (response) {
             return response.json();
         })
-        .then(function(data) {
+        .then(function (data) {
             // Verificar si se encontraron resultados
             if (data.length > 0) {
                 var latitud = parseFloat(data[0].lat);
@@ -134,7 +145,7 @@ function buscarDireccion() {
                 alert('No se encontraron resultados para la dirección ingresada.');
             }
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.log('Error al buscar la dirección:', error);
             alert('Ocurrió un error al buscar la dirección.');
         });

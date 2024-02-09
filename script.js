@@ -15,6 +15,8 @@ function cargarMapa(mapaId, src, textoOverlay, sublistId) {
     overlayInstrucciones.style.display = 'none';
     var overlaydispoinibilidad = document.querySelector('.overlay-tipos-red');
     overlaydispoinibilidad.style.display = 'block';
+    var notas = document.querySelector('.notas')
+    notas.style.display = 'block';
 }
 
 function mostrarMapa(mapaId, textoOverlay, sublistId) {

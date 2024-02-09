@@ -56,9 +56,7 @@ body {
 .logo-carrito img {
     width: 20%;
     min-height: 50px;
-    /* Establece una altura mínima para la imagen */
     display: block;
-    /* Añade esto para alinear correctamente */
     margin: auto;
 }
 
@@ -171,9 +169,6 @@ main {
     padding: 5px 30px;
     border: rgb(128, 129, 136) solid 1px;
     border-radius: 10px;
-
-
-
 }
 
 .sublist:hover {
@@ -209,15 +204,10 @@ main {
     font-weight: bold;
 
 }
-
-
-
-
-
-
 .principal {
     width: 80%;
     position: relative;
+    height: 680px;
 }
 
 .velo {
@@ -268,17 +258,20 @@ main {
     color: rgb(255, 255, 255);
     
 }
-
+.inframes {
+    display: flex;
+    flex-direction: column;
+    height: 90%; /* Establecer la altura del contenedor de los iframes al 90% */
+}
 .mapas {
     margin: 0 2.25% 0 2.25%;
     width: 95%;
-    height: 90%;
+    height: 100%;
     overflow: hidden;
 }
 .overlayInstrucciones {
-    position: absolute;
-    top: 30%;
-    left: 350px;
+    
+    
     background: rgba(146, 143, 143, 0.8);
     width: 400px;
     padding: 30px;
@@ -287,6 +280,11 @@ main {
     color: rgb(0, 49, 131);
     font-size: 40px;
     font-weight: bold;
+    position: relative; /* Asegura que las transformaciones se basen en este elemento */
+    top: -50%; /* Mueve el elemento hacia abajo en un 50% de la altura del contenedor padre */
+    left: 50%; /* Mueve el elemento hacia la derecha en un 50% del ancho del contenedor padre */
+    transform: translate(-50%, -50%); /* Corrige el centrado, retrocediendo la mitad del ancho y alto del elemento */
+
 
 }
 .overlay-tipos-red {
@@ -327,6 +325,17 @@ p img {
 
 
 }
+.notas{
+    width: calc(100% - 10px);
+    text-align: center;
+    padding: 5px;
+    font-size: 12px;
+    display: none;
+    
+
+
+}
+
 
 
 
@@ -579,15 +588,14 @@ p img {
 
     .column {
         flex: 0;
-
         color: aliceblue;
         padding: 20px;
         width: 100%;
     }
     .overlayInstrucciones {
        
-        top: 20%;
-        left: 0;
+        
+        
         width: calc(100% - 60px);
         
     }
@@ -611,10 +619,34 @@ p img {
         width: 280px;
     }
     .overlay-tipos-red {
-        
+        padding: 5px;
         bottom: 120px;
+        width: 100px;
         
     
+    }
+    .overlay-tipos-red h1 {
+        
+        font-size: 14px;
+          
+    
+    }
+    
+    .overlay-tipos-red p {
+        font-size: 12px;
+         
+    
+    }
+    p img{
+        padding: 0 3px;
+    }
+    .notas{
+        
+        text-align: center;
+        padding: 5px;
+        font-size: 12px;
+        display: none;
+        
     }
 
 

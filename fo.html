@@ -365,10 +365,10 @@
         }
         L.geoJSON(generateHexGridAndFilter(coordinates4), {
             style: function (feature) {
-                return { color: 'color: rgba(251, 255, 0, .5)', weight: 0.6, fillColor: '#f3f702', fillOpacity: 0.3 }; // Estilo de los hexágonos
+                return { color: 'color: 'rgba(253, 253, 253, .8)', weight: 0.6, fillColor: '#f3f702', fillOpacity: 0.3 }; // Estilo de los hexágonos
             }
         }).addTo(map);
-        // Agregar los hexágonos filtrados del primer polígono al mapa
+        /*// Agregar los hexágonos filtrados del primer polígono al mapa
         L.geoJSON(generateHexGridAndFilter(coordinates1), {
             style: function (feature) {
                 return { color: 'rgba(253, 253, 253, .8)', weight: 0.6, fillColor: '#04cbfd', fillOpacity: 0.6 }; // Estilo de los hexágonos
@@ -380,7 +380,7 @@
             style: function (feature) {
                 return { color: 'rgba(253, 253, 253, .8)', weight: 0.6, fillColor: '#04cbfd', fillOpacity: 0.6 }; // Estilo de los hexágonos
             }
-        }).addTo(map);
+        }).addTo(map);*/
 
         function buscarDireccion() {
             var direccion = document.getElementById('addressInput').value;

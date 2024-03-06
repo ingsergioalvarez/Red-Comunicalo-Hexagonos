@@ -4,607 +4,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>Mapa con capa adicional en Leaflet</title>
+    <title>Mapa con marcadores hexagonales en Leaflet</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.6/turf.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div id="map"></div>
-  <div class="search-container">
-      <input type="text" id="addressInput" placeholder="Escribe tu direccion o municipio">
-      <button onclick="buscarDireccion()">Buscar</button>
-  </div>
+    <div id="map"></div>
+    <div class="search-container">
+        <input type="text" id="addressInput" placeholder="Escribe una dirección...">
+        <button onclick="buscarDireccion()">Buscar</button>
+    </div>
+
     <script>
-        var map = L.map('map').setView([19.8341, -98.9448], 11); // Establecer la vista del mapa
+        var map = L.map('map').setView([23.6345, -102.5528], 5); // Crear un objeto de mapa y establecer la vista
         L.tileLayer('https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             attribution: '© CARTO'
         }).addTo(map);
 
-        // Coordenadas del primer polígono
-        var coordinates1 = [
-            [-98.7609754, 19.7446455],
-            [-98.7609754, 19.735355],
-            [-98.7684427, 19.7246905],
-            [-98.7647519, 19.7228322],
-            [-98.7663827, 19.7073995],
-            [-98.7696443, 19.6995614],
-            [-98.7643228, 19.6907532],
-            [-98.7481008, 19.6876015],
-            [-98.7405477, 19.6985917],
-            [-98.7421785, 19.7008543],
-            [-98.7382303, 19.7023897],
-            [-98.7460409, 19.7053794],
-            [-98.741921, 19.71047],
-            [-98.7475, 19.7143485],
-            [-98.7546239, 19.7116013],
-            [-98.7545381, 19.7192772],
-            [-98.7499032, 19.7223475],
-            [-98.7432084, 19.7217011],
-            [-98.7393461, 19.7295381],
-            [-98.751534, 19.7362437],
-            [-98.7511907, 19.7436761],
-            [-98.7609754, 19.7446455]
+
+
+        // Coordenadas de los marcadores
+        var markers = [
+            { lat: 19.8164842, lng: -98.6023254 },
+            { lat: 19.7834383, lng: -98.5528746 },
+            { lat: 19.6538276, lng: -98.5473821 },
+            { lat: 19.5850377, lng: -98.5666076999999 },
+            { lat: 19.4949991, lng: -98.5363982 },
+            { lat: 19.4924332, lng: -98.4690887 },
+            { lat: 19.4671573, lng: -98.3459980999999 },
+            { lat: 19.4864148, lng: -98.2563876999999 },
+            { lat: 19.4256555, lng: -98.2171967 },
+            { lat: 19.4139157, lng: -98.1830291 },
+            { lat: 19.415881, lng: -98.1393179 },
+            { lat: 19.4415302, lng: -98.1051499 },
+            { lat: 19.5319254, lng: -98.209249 },
+            { lat: 19.61766, lng: -98.1174721 },
+            { lat: 19.8378624, lng: -98.0317451 },
+            { lat: 19.4139157, lng: -98.1830291 },
+            { lat: 19.3527871, lng: -98.1639022999999 },
+            { lat: 19.351808, lng: -98.1909185999999 },
+            { lat: 19.3125811, lng: -98.191238 },
+            { lat: 19.318154, lng: -98.2374954 },
+            { lat: 19.2448882, lng: -98.2336028 },
+            { lat: 19.2367106, lng: -98.2513802 },
+            { lat: 19.1984792, lng: -98.2486449 },
+            { lat: 19.1753697, lng: -98.2377049 },
+            { lat: 19.5563141, lng: -98.8555736 },
+            { lat: 19.1445101, lng: -98.2021609999999 },
+            { lat: 19.0414398, lng: -98.2062727 },
+            { lat: 19.711382, lng: -98.45407 },
+            { lat: 19.2243413, lng: -98.2490377 },
+            { lat: 19.7057559, lng: -98.758386 },
+            { lat: 19.7288694, lng: -98.7587159 },
+            { lat: 19.9502663, lng: -98.9109965 },
+            { lat: 19.8929652, lng: -98.9392312 },
+            { lat: 19.8668133, lng: -98.9937337 },
+            { lat: 19.8623702, lng: -98.9884733 },
+            { lat: 19.855754, lng: -98.9596589 },
+            { lat: 19.8427562, lng: -98.9593156 },
+            { lat: 19.8383157, lng: -98.9787133 },
+            { lat: 19.8195029, lng: -98.9826615 },
+            { lat: 19.856642, lng: -98.9668687 },
+            { lat: 19.825966, lng: -99.0954135 },
+            { lat: 19.8234032, lng: -99.0630253 },
+
+
         ];
 
-        // Coordenadas del segundo polígono
-        var coordinates2 = [
-            [-99.1002828, 19.8223088],
-            [-99.0910131, 19.818756],
-            [-99.0755636, 19.8132651],
-            [-99.0608007, 19.8156876],
-            [-99.0547926, 19.8087431],
-            [-99.0139372, 19.8234392],
-            [-99.0062124, 19.8129421],
-            [-98.9924795, 19.819725],
-            [-98.9725668, 19.806805],
-            [-98.965357, 19.8245697],
-            [-98.9681036, 19.8329668],
-            [-98.9543707, 19.8352275],
-            [-98.944071, 19.8433012],
-            [-98.9375479, 19.8613847],
-            [-98.9488775, 19.8662281],
-            [-98.9152319, 19.8978683],
-            [-98.866769, 19.9437019],
-            [-98.9129459, 19.9811345],
-            [-98.9364635, 19.9761332],
-            [-98.9404117, 19.9496723],
-            [-98.9162075, 19.936763],
-            [-98.897153, 19.9416041],
-            [-98.8925182, 19.9370857],
-            [-98.9325153, 19.9036779],
-            [-98.940755, 19.9088429],
-            [-98.9520847, 19.8959302],
-            [-98.9507114, 19.8859221],
-            [-98.972684, 19.8639667],
-            [-98.9767119, 19.8599746],
-            [-98.9934489, 19.8742624],
-            [-98.9975688, 19.8749889],
-            [-99.0034911, 19.8677241],
-            [-98.9965463, 19.8547669],
-            [-98.9835, 19.8547669],
-            [-98.98863, 19.8393931],
-            [-98.9972131, 19.8280896],
-            [-99.0078561, 19.8351948],
-            [-99.0504281, 19.8216301],
-            [-99.0614144, 19.8287355],
-            [-99.0754907, 19.8261518],
-            [-99.0988366, 19.833257],
-            [-99.107763, 19.8287355],
-            [-99.1070764, 19.8203382],
-            [-99.1002828, 19.8223088],
-        ];
+        var markerSize = 0.4; // Tamaño inicial de los marcadores
+        var fillOpacity = 0.7; // Opacidad inicial de los hexágonos
 
-        var coordinates3 = [
-            [-98.8185065, 19.9019934],
-            [-98.9115469, 19.8322493],
-            [-98.8693182, 19.7947815],
-            [-98.7937872, 19.7892898],
-            [-98.7220328, 19.861636],
-            [-98.7343924, 19.9071584],
-            [-98.8185065, 19.9019934],
+        // Crear los hexágonos inicialmente
+        markers.forEach(function (marker) {
+            createHexMarker(marker.lat, marker.lng, markerSize, fillOpacity);
+        });
 
+        // Ajustar el tamaño de los hexágonos y la opacidad cuando el usuario haga zoom
+        map.on('zoomend', function () {
+            var zoomLevel = map.getZoom(); // Obtener el nivel de zoom actual del mapa
 
-        ]
-        var coordinates4= [
-          
-            [
-              -98.48217267438524,
-              19.76845420228817
-            ],
-            [
-              -98.5028175191551,
-              19.80747806725236
-            ],
-            [
-              -98.5679402393895,
-              19.8118609327001
-            ],
-            [
-              -98.5774080436532,
-              19.84476629275862
-            ],
-            [
-              -98.62358223395138,
-              19.863802010251575
-            ],
-            [
-              -98.68679176835272,
-              20.03053137958878
-            ],
-            [
-              -98.71997534153135,
-              20.05573443041331
-            ],
-            [
-              -98.7799719602771,
-              20.06440551183971
-            ],
-            [
-              -98.84094512976888,
-              20.066756629494577
-            ],
-            [
-              -98.87141857187497,
-              20.054306343709627
-            ],
-            [
-              -98.85198312020101,
-              20.002769798444476
-            ],
-            [
-              -98.91935032352623,
-              19.942117043948684
-            ],
-            [
-              -98.9719364339188,
-              19.951576383059376
-            ],
-            [
-              -99.0529900333812,
-              19.997306235264233
-            ],
-            [
-              -99.07444680396098,
-              19.95689206815473
-            ],
-            [
-              -99.12533431914315,
-              19.964807685533657
-            ],
-            [
-              -99.19017807075157,
-              20.02748004441014
-            ],
-            [
-              -99.21807082482978,
-              20.057160000854253
-            ],
-            [
-              -99.29207440805772,
-              20.05283409269788
-            ],
-            [
-              -99.31978639053482,
-              20.001550519701738
-            ],
-            [
-              -99.22510295491006,
-              19.977838720435088
-            ],
-            [
-              -99.18154814738016,
-              19.913505573020174
-            ],
-            [
-              -99.06894910506763,
-              19.87533271622877
-            ],
-            [
-              -99.03663140118348,
-              19.92395900820634
-            ],
-            [
-              -99.02278189006319,
-              19.888362597736574
-            ],
-            [
-              -98.98029989886209,
-              19.88662002361022
-            ],
-            [
-              -99.0071025999496,
-              19.85798586154614
-            ],
-            [
-              -98.98587337414884,
-              19.73283859609694
-            ],
-            [
-              -99.00805058849978,
-              19.687611621351166
-            ],
-            [
-              -99.08104075806943,
-              19.72066090378317
-            ],
-            [
-              -99.09803584097631,
-              19.70847978218758
-            ],
-            [
-              -99.12759392088373,
-              19.72413759623079
-            ],
-            [
-              -99.1442022180633,
-              19.705007318225782
-            ],
-            [
-              -99.20787505947999,
-              19.715454035019448
-            ],
-            [
-              -99.2033013203492,
-              19.651083249448106
-            ],
-            [
-              -99.08509821722166,
-              19.6632423716744
-            ],
-            [
-              -99.01486981907291,
-              19.629313541978917
-            ],
-            [
-              -98.9630923504243,
-              19.68156373738789
-            ],
-            [
-              -98.90400009474776,
-              19.661527332492682
-            ],
-            [
-              -98.80151321315363,
-              19.692870576803287
-            ],
-            [
-              -98.76928780025294,
-              19.668590820437046
-            ],
-            [
-              -98.72963217240273,
-              19.686842412129224
-            ],
-            [
-              -98.72960820078823,
-              19.745895915651417
-            ],
-            [
-              -98.76005452588784,
-              19.763263486026347
-            ],
-            [
-              -98.78033791338703,
-              19.74068273565473
-            ],
-            [
-              -98.82555407012372,
-              19.72939018676601
-            ],
-            [
-              -98.86247491176994,
-              19.741554426009685
-            ],
-            [
-              -98.89845776171013,
-              19.70415746658226
-            ],
-            [
-              -98.94648427505882,
-              19.733713517615826
-            ],
-            [
-              -98.95201745726834,
-              19.798894821270707
-            ],
-            [
-              -98.80151746318266,
-              20.00722871321385
-            ],
-            [
-              -98.75257724317181,
-              20.01331603040346
-            ],
-            [
-              -98.6752033871874,
-              19.8370424760474
-            ],
-            [
-              -98.63745572558099,
-              19.812726302650503
-            ],
-            [
-              -98.59040887799398,
-              19.75458130509668
-            ],
-            [
-              -98.53234604578499,
-              19.771904345208327
-            ],
-            [
-              -98.51350591780236,
-              19.7441852317353
-            ],
-            [
-              -98.48217267438524,
-              19.76845420228817
-            ]
-        ]
-        var coordinates5 = [
-      [
-        -98.5826326,
-        19.7997273,
-        0
-      ],
-      [
-        -98.5860658,
-        19.7493272,
-        0
-      ],
-      [
-        -98.525641,
-        19.7454496,
-        0
-      ],
-      [
-        -98.5057283,
-        19.7060221,
-        0
-      ],
-      [
-        -98.6293245,
-        19.590269,
-        0
-      ],
-      [
-        -98.5249544,
-        19.5255661,
-        0
-      ],
-      [
-        -98.494742,
-        19.4776693,
-        0
-      ],
-      [
-        -98.4425569,
-        19.4705483,
-        0
-      ],
-      [
-        -98.3903718,
-        19.4621322,
-        0
-      ],
-      [
-        -98.3690858,
-        19.4440036,
-        0
-      ],
-      [
-        -98.3251405,
-        19.4336436,
-        0
-      ],
-      [
-        -98.2887483,
-        19.4569528,
-        0
-      ],
-      [
-        -98.2475496,
-        19.403207,
-        0
-      ],
-      [
-        -98.2077241,
-        19.3831287,
-        0
-      ],
-      [
-        -98.2612825,
-        19.3390774,
-        0
-      ],
-      [
-        -98.2669879,
-        19.2820615,
-        0
-      ],
-      [
-        -98.2635547,
-        19.2172359,
-        0
-      ],
-      [
-        -98.2388354,
-        19.1212471,
-        0
-      ],
-      [
-        -98.1880237,
-        19.1251396,
-        0
-      ],
-      [
-        -98.2072498,
-        19.2989119,
-        0
-      ],
-      [
-        -98.1385852,
-        19.3455657,
-        0
-      ],
-      [
-        -98.1104327,
-        19.4045117,
-        0
-      ],
-      [
-        -98.0754138,
-        19.4563148,
-        0
-      ],
-      [
-        -98.0987598,
-        19.5805746,
-        0
-      ],
-      [
-        -98.0943493,
-        19.6232658,
-        0
-      ],
-      [
-        -97.9961244,
-        19.797178,
-        0
-      ],
-      [
-        -98.0167238,
-        19.8611254,
-        0
-      ],
-      [
-        -98.0750887,
-        19.851438,
-        0
-      ],
-      [
-        -98.0579225,
-        19.8113908,
-        0
-      ],
-      [
-        -98.0853883,
-        19.7577633,
-        0
-      ],
-      [
-        -98.1156007,
-        19.7480696,
-        0
-      ],
-      [
-        -98.1197206,
-        19.6957138,
-        0
-      ],
-      [
-        -98.1705324,
-        19.6174714,
-        0
-      ],
-      [
-        -98.1574861,
-        19.4990655,
-        0
-      ],
-      [
-        -98.1767122,
-        19.4492185,
-        0
-      ],
-      [
-        -98.2591097,
-        19.5217181,
-        0
-      ],
-      [
-        -98.3682863,
-        19.5463089,
-        0
-      ],
-      [
-        -98.4548036,
-        19.5450147,
-        0
-      ],
-      [
-        -98.4960024,
-        19.6071225,
-        0
-      ],
-      [
-        -98.4053651,
-        19.7054107,
-        0
-      ],
-      [
-        -98.4616701,
-        19.7816717,
-        0
-      ],
-      [
-        -98.5111086,
-        19.8068687,
-        0
-      ],
-      [
-        -98.5826326,
-        19.7997273,
-        0
-      ]
-    ]
-        
+            // Calcular el nuevo tamaño de los hexágonos y la nueva opacidad en función del nivel de zoom
+            if (zoomLevel <= 8) {
+                markerSize = 0.2;
+                fillOpacity = 0.4;
+            } else if (zoomLevel <= 10) {
+                markerSize = 0.045;
+                fillOpacity = 0.25;
+            } else {
+                markerSize = 0.025;
+                fillOpacity = 0.25;
+            }
 
-        // Función para generar la cuadrícula de hexágonos y filtrarlos según un polígono
-        function generateHexGridAndFilter(coordinates) {
-            // Convertir las coordenadas en un formato GeoJSON
-            var polygon = turf.polygon([coordinates]);
-
-            // Generar una cuadrícula de hexágonos alrededor del polígono
-            var bbox = turf.bbox(polygon);
-            var cellSize = 0.01; // Tamaño de celda en grados
-            var hexgrid = turf.hexGrid(bbox, cellSize, { units: 'degrees' });
-
-            // Filtrar los hexágonos para mantener solo aquellos dentro del polígono
-            var hexagonsInsidePolygon = hexgrid.features.filter(function (hex) {
-                return turf.booleanPointInPolygon(hex.geometry.coordinates[0][0], polygon); // Verificar si el punto del hexágono está dentro del polígono
+            // Quitar los hexágonos existentes y volver a crearlos con el nuevo tamaño y opacidad
+            map.eachLayer(function (layer) {
+                if (layer instanceof L.Polygon) {
+                    map.removeLayer(layer);
+                }
             });
 
-            // Crear una nueva GeoJSON con los hexágonos dentro del polígono
-            return turf.featureCollection(hexagonsInsidePolygon);
-        }
-        L.geoJSON(generateHexGridAndFilter(coordinates4), {
-            style: function (feature) {
-                return { color: 'rgba(253, 253, 253, .8)', weight: 0.6, fillColor: '#04cbfd', fillOpacity: 0.3 }; // Estilo de los hexágonos
-            }
-        }).addTo(map);
-        // Agregar los hexágonos filtrados del primer polígono al mapa
-        L.geoJSON(generateHexGridAndFilter(coordinates1), {
-            style: function (feature) {
-                return { color: 'rgba(253, 253, 253, .8)', weight: 0.6, fillColor: '#04cbfd', fillOpacity: 0.6 }; // Estilo de los hexágonos
-            }
-        }).addTo(map);
+            markers.forEach(function (marker) {
+                createHexMarker(marker.lat, marker.lng, markerSize, fillOpacity);
+            });
+        });
 
-        // Agregar los hexágonos filtrados del segundo polígono al mapa
-        L.geoJSON(generateHexGridAndFilter(coordinates2), {
-            style: function (feature) {
-                return { color: 'rgba(253, 253, 253, .8)', weight: 0.6, fillColor: '#04cbfd', fillOpacity: 0.6 }; // Estilo de los hexágonos
+        // Función para crear marcadores hexagonales
+        function createHexMarker(lat, lng, markerSize, fillOpacity) {
+            var markerColor = 'blue'; // Color de los marcadores
+
+            var points = [];
+            for (var i = 0; i < 6; i++) {
+                var angle_deg = 60 * i;
+                var angle_rad = Math.PI / 180 * angle_deg;
+                points.push([lat + markerSize * Math.cos(angle_rad), lng + markerSize * Math.sin(angle_rad)]);
             }
+            return L.polygon([points], { color: 'rgba(253, 253, 253, .8)', weight: 0.6, fillColor: '#04cbfd', fillOpacity: fillOpacity }).addTo(map);
+        }
+
+
+
+
+        var map = L.map('map').setView([51.505, -0.09], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
-         // Agregar los hexágonos filtrados del segundo polígono al mapa
-        L.geoJSON(generateHexGridAndFilter(coordinates5), {
-            style: function (feature) {
-                return { color: 'rgba(253, 253, 253, .8)', weight: 0.6, fillColor: '#04cbfd', fillOpacity: 0.6 }; // Estilo de los hexágonos
-            }
-        }).addTo(map);
-       
 
         function buscarDireccion() {
             var direccion = document.getElementById('addressInput').value;
@@ -634,11 +158,8 @@
                     alert('Ocurrió un error al buscar la dirección');
                 });
         }
-
-       
-        
-
     </script>
+    </div>
 </body>
 
 </html>

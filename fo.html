@@ -569,7 +569,7 @@
 
             // Generar una cuadrícula de hexágonos alrededor del polígono
             var bbox = turf.bbox(polygon);
-            var cellSize = 0.005; // Tamaño de celda en grados
+            var cellSize = 0.01; // Tamaño de celda en grados
             var hexgrid = turf.hexGrid(bbox, cellSize, { units: 'degrees' });
 
             // Filtrar los hexágonos para mantener solo aquellos dentro del polígono
@@ -598,11 +598,13 @@
                 return { color: 'rgba(253, 253, 253, .8)', weight: 0.6, fillColor: '#04cbfd', fillOpacity: 0.6 }; // Estilo de los hexágonos
             }
         }).addTo(map);
+         // Agregar los hexágonos filtrados del segundo polígono al mapa
         L.geoJSON(generateHexGridAndFilter(coordinates5), {
-      style: function (feature) {
-        return { color: 'rgba(253, 253, 253, .8)', weight: 0.6, fillColor: '#04cbfd', fillOpacity: 0.6 }; // Estilo de los hexágonos
-      }
-    }).addTo(map);
+            style: function (feature) {
+                return { color: 'rgba(253, 253, 253, .8)', weight: 0.6, fillColor: '#04cbfd', fillOpacity: 0.6 }; // Estilo de los hexágonos
+            }
+        }).addTo(map);
+       
 
         function buscarDireccion() {
             var direccion = document.getElementById('addressInput').value;
